@@ -1,13 +1,15 @@
 import sto3
+from collections import namedtuple
 
 KEY = sto3.key_data
+KEY = KEY.split(',')
 
 class B:
     def __init__(self):
         self.REALTYPE = dict()
         self.REALTYPE['int'] = dict()
         
-        for k in KEY.split(','):
+        for k in KEY:
             self.REALTYPE['int'][k] = 1
         
 
@@ -24,11 +26,15 @@ class A:
     
     def __init__(self,sCode, sRealType):
         self.realType = B()
-        data = dict()
-        for k in KEY.split(','):
-            data[k] = self.get_data(sCode, sRealType, k)
-        import pprint
-        pprint.pprint(data)
+        data = namedtuple("Data", [f'v{i}' for i in range(len(KEY))])
+        xx = []
+        for k in KEY:
+            xx.append(self.get_data(sCode, sRealType, k))
+        k = data(*xx)
+        print(k)
+
+        # import pprint
+        # pprint.pprint(data)
         
-        
+
 a = A("code", "int")
